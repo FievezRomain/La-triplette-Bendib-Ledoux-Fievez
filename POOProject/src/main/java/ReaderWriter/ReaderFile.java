@@ -2,8 +2,6 @@ package ReaderWriter;
 
 import java.io.IOException;
 
-import javax.swing.JPopupMenu.Separator;
-
 import Metadata.Table;
 
 public interface ReaderFile {
