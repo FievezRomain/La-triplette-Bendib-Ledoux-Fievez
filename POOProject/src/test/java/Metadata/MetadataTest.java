@@ -1,4 +1,4 @@
-package POOProject;
+package Metadata;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

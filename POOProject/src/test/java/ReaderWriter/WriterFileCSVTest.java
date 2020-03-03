@@ -1,4 +1,4 @@
-package POOProject;
+package ReaderWriter;
 
 import static org.junit.Assert.*;
 
