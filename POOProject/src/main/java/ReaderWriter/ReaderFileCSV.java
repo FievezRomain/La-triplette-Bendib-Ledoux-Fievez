@@ -7,12 +7,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import IHM.JavaFX;
 import Metadata.Column;
 import Metadata.Line;
 import Metadata.Table;
 import Metadata.Value;
 
 public class ReaderFileCSV implements ReaderFile {
+	private static Logger logger = Logger.getLogger(ReaderFileCSV.class);
 	private String mode;
 	private Table datasInput;
 	private Table table;
@@ -26,6 +30,7 @@ public class ReaderFileCSV implements ReaderFile {
 	 */
 	@Override
 	public Table readInput(Separator separator, String path) throws IOException{
+		logger.info("Lecture des datas en input");
 		mode = "input";
 		return read(separator, path);
 	}
@@ -37,6 +42,7 @@ public class ReaderFileCSV implements ReaderFile {
 	 */
 	@Override
 	public Table readRules(Separator separator, String path, Table datasInput) throws IOException{
+		logger.info("Lecture des règles");
 		mode = "rules";
 		this.datasInput = datasInput;
 		read (separator, path);
@@ -50,6 +56,7 @@ public class ReaderFileCSV implements ReaderFile {
 	 */
 	@Override
 	public Table readTypes(Separator separator, String path, Table datasInput) throws IOException{
+		logger.info("Lecture des descriptions");
 		mode = "types";
 		this.datasInput = datasInput;
 		read(separator, path);
@@ -66,6 +73,7 @@ public class ReaderFileCSV implements ReaderFile {
 	 * @throws IOException 
 	 */
 	public Table read(Separator separator, String path) throws IOException {
+		logger.info("Début de la lecture");
 		String csvFile = path;
         String line = "";
         String cvsSplitBy = separator.getSeprator();
@@ -96,8 +104,10 @@ public class ReaderFileCSV implements ReaderFile {
             }
 
         } catch (IOException e) {
+        	logger.fatal(e.getMessage());
             throw new IOException(e);
         }
+        logger.info("Fin de la lecture");
 		return table;
 	}
 	
@@ -130,7 +140,7 @@ public class ReaderFileCSV implements ReaderFile {
 				actionTypes(i, y, items);
 				break;
 			default:
-				//Log action n'ont implémentée
+				logger.warn("Nouvelle lecture dans l'application ? Celle-ci n'est pas implémentée");
 				break;
 		}
 	}

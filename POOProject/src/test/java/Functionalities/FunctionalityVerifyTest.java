@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import Metadata.Line;
@@ -11,9 +13,11 @@ import Metadata.Table;
 import Metadata.Value;
 
 public class FunctionalityVerifyTest {
+	private static Logger logger = Logger.getLogger(FunctionalityVerifyTest.class);
 
 	@Test
 	public void testSuccessful() {
+		BasicConfigurator.configure();
 		Functionality func = Functionality.getFunctionality("verify");
 		try {
 			Table map = new Table();
@@ -29,8 +33,7 @@ public class FunctionalityVerifyTest {
 			map = func.start(map);
 			assertFalse(map.isEmpty());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.fatal(e.getMessage());
 		}
 	}
 	

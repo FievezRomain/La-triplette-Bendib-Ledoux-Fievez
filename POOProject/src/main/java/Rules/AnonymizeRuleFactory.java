@@ -1,7 +1,9 @@
 package Rules;
 
+import org.apache.log4j.Logger;
 
 public abstract class AnonymizeRuleFactory {
+	private static Logger logger = Logger.getLogger(AnonymizeRuleFactory.class);
 	/**
 	 * Permet de créer une instance d'une règle à partir de la valeur du fichier lu
 	 * @param rule
@@ -15,6 +17,7 @@ public abstract class AnonymizeRuleFactory {
 			case "RANDOM_LETTER_FOR_LOCAL_PART":
 				return new RuleRandomLetterForLocalPart();
 			default:
+				logger.warn("La règle n'est pas implémentée");
 				throw new Exception("La règle n'est pas implémentée");
 		}
 	}
