@@ -7,14 +7,18 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import IHM.JavaFX;
 import Metadata.Line;
 import Metadata.Table;
 import Metadata.Value;
 
 public class ReaderFileJSON implements ReaderFile {
+	private static Logger logger = Logger.getLogger(ReaderFileJSON.class);
 	/**
 	 * Classe interne qui permet de pouvoir lire les éléments d'un fichier JSON
 	 * @author Ledoux
@@ -40,11 +44,11 @@ public class ReaderFileJSON implements ReaderFile {
 	 * @param separator
 	 * @param path
 	 * @return
+	 * @throws Exception 
 	 */
-	public Table read(Separator separator, String path) {
-
+	public Table read(Separator separator, String path) throws Exception {
+		logger.info("Début de la lecture");
         Gson gson = new Gson();
-
         try (Reader reader = new FileReader(path)) {
 
             // Convert JSON File to Java Object
@@ -59,17 +63,19 @@ public class ReaderFileJSON implements ReaderFile {
             return this.datasInput;
 
         } catch (IOException e) {
-            e.printStackTrace(); //Log erreur
+        	logger.fatal(e.getMessage());
+            throw new Exception(e); 
         }
-		return null; //Log erreur
 	}
 	
 	/**
 	 * Méthode concernant la lecture du fichier contenant les données principales
 	 * (Plus d'infos dans l'interface ReaderFile)
+	 * @throws Exception 
 	 */
 	@Override
-	public Table readInput(Separator separator, String path) {
+	public Table readInput(Separator separator, String path) throws Exception {
+		logger.info("Lecture des datas en input");
 		this.mode = "input";
 		return read(separator, path);
 	}
@@ -77,9 +83,11 @@ public class ReaderFileJSON implements ReaderFile {
 	/**
 	 * Méthode concernant la lecture du fichier avec les règles à appliquées 
 	 * (Plus d'infos dans l'interface ReaderFile)
+	 * @throws Exception 
 	 */
 	@Override
-	public Table readRules(Separator separator, String path, Table datasInput) {
+	public Table readRules(Separator separator, String path, Table datasInput) throws Exception {
+		logger.info("Lecture des règles");
 		this.mode = "rules";
 		this.datasInput = datasInput;
 		read(separator, path);
@@ -89,9 +97,11 @@ public class ReaderFileJSON implements ReaderFile {
 	/**
 	 * Méthode concernant la lecture du fichier comportant les types de colonnes
 	 * (Plus d'infos dans l'interface ReaderFile)
+	 * @throws Exception 
 	 */
 	@Override
-	public Table readTypes(Separator separator, String path, Table datasInput) {
+	public Table readTypes(Separator separator, String path, Table datasInput) throws Exception {
+		logger.info("Lecture des descriptions");
 		this.mode = "types";
 		this.datasInput = datasInput;
 		read(separator, path);
@@ -113,7 +123,7 @@ public class ReaderFileJSON implements ReaderFile {
 				typesAction();
 				break;
 			default:
-				//Log;
+				logger.warn("Nouvelle lecture dans l'application ? Celle-ci n'est pas implémentée");
 				break;
 		}
 	}

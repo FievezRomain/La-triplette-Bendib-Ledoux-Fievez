@@ -10,5 +10,5 @@ public interface WriterFile {
 	 * @param pathFile
 	 * @return
 	 */
-	public boolean write(Separator separator, Table table, String pathFile);
+	public boolean write(Separator separator, Table table, String pathFile) throws Exception;
 }

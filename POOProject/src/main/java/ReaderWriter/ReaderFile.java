@@ -11,7 +11,7 @@ public interface ReaderFile {
 	 * @param path
 	 * @return table avec les données du fichier qui comporte les données principales
 	 */
-	public Table readInput(Separator separator, String path) throws IOException;
+	public Table readInput(Separator separator, String path) throws Exception;
 	
 	/**
 	 * Lecture du fichier contenant les règles à appliquées
@@ -22,7 +22,7 @@ public interface ReaderFile {
 	 * @param datasInput
 	 * @return 
 	 */
-	public Table readRules(Separator separator, String path, Table datasInput) throws IOException;
+	public Table readRules(Separator separator, String path, Table datasInput) throws Exception;
 	
 	/**
 	 * Lecture du fhicher contenant la description des valeurs principales
@@ -33,5 +33,5 @@ public interface ReaderFile {
 	 * @param datasInput
 	 * @return
 	 */
-	public Table readTypes(Separator separator, String path, Table datasInput) throws IOException;
+	public Table readTypes(Separator separator, String path, Table datasInput) throws Exception;
 }

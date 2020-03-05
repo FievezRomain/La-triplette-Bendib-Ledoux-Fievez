@@ -2,6 +2,8 @@ package IHM;
 
 import java.io.File;
 
+import org.apache.log4j.Logger;
+
 import Functionalities.Functionality;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -22,6 +24,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class JavaFX extends Application implements IHM{
+	private static Logger logger = Logger.getLogger(JavaFX.class);
 	private String file1, file2, file3;
 	
 	@Override
@@ -75,7 +78,7 @@ public class JavaFX extends Application implements IHM{
 		buttonVerif.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
             	if(file1 != null && file2 != null && file3 != null) {
-            		launchFunctionality("verify", comment.getText());
+            		launchFunctionality("verify", comment.getText(), primaryStage);
             	}
             	
             }
@@ -144,7 +147,7 @@ public class JavaFX extends Application implements IHM{
 		buttonAno.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
             	if(file1 != null && file2 != null && file3 != null) {
-            		launchFunctionality("anonymize", comment.getText());
+            		launchFunctionality("anonymize", comment.getText(), primaryStage);
             	}
             	
             }
@@ -202,13 +205,26 @@ public class JavaFX extends Application implements IHM{
         primaryStage.show();
 	}
 	
-	private void launchFunctionality(String functionality, String outputFileName) {
+	private void launchFunctionality(String functionality, String outputFileName, Stage primaryStage) {
 		Functionality func = Functionality.getFunctionality(functionality);
 		try {
+			logger.info("La fonctionalité est lancée");
 			func.launch(func, file1, file2, file3, outputFileName);
+			String path = new File(outputFileName).getAbsolutePath();
+			VBox root = new VBox(5);
+			Label label = new Label(path);
+			BackgroundFill background_fill = new BackgroundFill(Color.STEELBLUE,  
+	                CornerRadii.EMPTY, Insets.EMPTY); 
+	        Background background = new Background(background_fill); 
+			root.setAlignment(Pos.CENTER);
+			root.getChildren().add(label);
+			root.setBackground(background);
+			primaryStage.setScene(new Scene(root, 800, 600));
+			primaryStage.show();
+			Process builder = Runtime.getRuntime().exec("cmd /c start "+path);
+			//Ajouter indicateur que la func est terminée
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace(); //Log
+			logger.fatal(e.getMessage());
 		}
 	}
 

@@ -1,6 +1,9 @@
 package ReaderWriter;
 
+import org.apache.log4j.Logger;
+
 public class ReaderFileFactory {
+	private static Logger logger = Logger.getLogger(ReaderFileFactory.class);
 	/**
 	 * Permet la création d'un lecture selon l'extension d'un fichier
 	 * @param extension
@@ -16,8 +19,8 @@ public class ReaderFileFactory {
 				reader = new ReaderFileJSON();
 				break;
 			default:
-				reader = null; //Log type de fichier à implémenter
-				break;
+				logger.warn("Le type de fichier n'est pas connu");
+				reader = null;
 		}
 		return reader;
 	}

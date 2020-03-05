@@ -1,5 +1,7 @@
 package Functionalities;
 
+import org.apache.log4j.Logger;
+
 import Metadata.Table;
 import ReaderWriter.ReaderFile;
 import ReaderWriter.ReaderFileFactory;
@@ -8,7 +10,8 @@ import ReaderWriter.WriterFile;
 import ReaderWriter.WriterFileFactory;
 
 public abstract class Functionality {
-private Table datasInput;
+	private Table datasInput;
+	private static Logger logger = Logger.getLogger(Functionality.class);
 	
 	/**
 	 * Méthode centrale qui permet la lecture du fichier avec l'appel à la méthode before, son traitement
@@ -24,8 +27,11 @@ private Table datasInput;
 	public Table launch(Functionality functionalityType, String pathFileInput, String pathFileDescription,
 			String pathFileDataToCheck, String pathFileOutput) throws Exception {
 		before(pathFileInput, pathFileDescription, pathFileDataToCheck);
+		logger.info("Read files finished");
 		Table datasResult = functionalityType.start(datasInput);
+		logger.info("Functionality finished");
 		after(datasResult, pathFileOutput);
+		logger.info("Write result finished");
 		return datasResult;
 	}
 	
@@ -47,13 +53,16 @@ private Table datasInput;
 			rf = getReader(pathFileInput);
 			Separator sep = new Separator(";");
 			datasInput = rf.readInput(sep, pathFileInput);
+			logger.info("Read datas input finished");
 			rf = getReader(pathFileDescription);
 			datasInput = rf.readTypes(sep, pathFileDescription, datasInput);
+			logger.info("Read description datas finished");
 			rf = getReader(pathFileDataToCheck);
 			datasInput = rf.readRules(sep, pathFileDataToCheck, datasInput);
+			logger.info("Read rules finished");
 		}catch(Exception e) {
-			System.out.println(e);
-			//Mettre log
+			logger.fatal(e.getMessage());
+			
 		}
 		
 	}
@@ -65,10 +74,15 @@ private Table datasInput;
 	 * @param pathFile
 	 */
 	private void after(Table datasResult, String pathFile) {
-		String[] alt = pathFile.split("\\.");
-		String extension = alt[alt.length-1];
-		WriterFile wf = WriterFileFactory.getInstance(extension.toUpperCase());
-		wf.write(new Separator(";"), datasResult, pathFile);
+		try {
+			logger.info("Write result process");
+			String[] alt = pathFile.split("\\.");
+			String extension = alt[alt.length-1];
+			WriterFile wf = WriterFileFactory.getInstance(extension.toUpperCase());
+			wf.write(new Separator(";"), datasResult, pathFile);
+		}catch(Exception e) {
+			logger.fatal(e.getMessage());
+		}
 	}
 	
 	/**
@@ -83,7 +97,8 @@ private Table datasInput;
 			case "anonymize":
 				return new FunctionalityAnonymize();
 			default:
-				return null;//add log
+				logger.fatal("Functionality not defined !");
+				return null;
 		}
 	}
 
@@ -93,10 +108,16 @@ private Table datasInput;
 	 * @return
 	 */
 	private ReaderFile getReader(String path) {
-		String[] alt = path.split("\\.");
-		String extension = alt[alt.length - 1].toLowerCase();
-		ReaderFile rf = ReaderFileFactory.createInstance(extension); //Vérifier gestion log dans factory
-		return rf;
+		try {
+			String[] alt = path.split("\\.");
+			String extension = alt[alt.length - 1].toLowerCase();
+			ReaderFile rf = ReaderFileFactory.createInstance(extension);
+			return rf;
+		}catch(Exception e){
+			logger.fatal(e.getMessage());
+		}
+		return null;
+		
 	}
 	
 	/**
@@ -106,6 +127,6 @@ private Table datasInput;
 	 * @return
 	 */
 	protected Table start(Table datasInput) throws Exception{
-		return null; //Add log
+		return null;
 	}
 }
