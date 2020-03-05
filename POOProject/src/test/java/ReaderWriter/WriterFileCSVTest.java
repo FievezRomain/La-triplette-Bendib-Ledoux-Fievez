@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
@@ -20,6 +21,7 @@ public class WriterFileCSVTest {
 
 	@Test
 	public void testWrite() {
+		BasicConfigurator.configure();
 		try {
 			Table map = new Table();
 			map.getLines().add(new Line());

@@ -1,5 +1,6 @@
 package POOProject;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import IHM.IHM;
@@ -11,9 +12,10 @@ public class Launcher {
 	 * Méthode de base de l'application qui sert à lancer l'IHM que nous voulons
 	 */
 	public static void main(String[] args) {
+		BasicConfigurator.configure();
 		IHM ihm = new JavaFX();
-		ihm.Lancer(args);
 		logger.info("L'ihm est lancée");
+		ihm.Lancer(args);
 	}
 
 }

@@ -2,6 +2,7 @@ package Functionalities;
 
 import static org.junit.Assert.*;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
@@ -13,6 +14,7 @@ public class FunctionalityAnonymizeTest {
 	private static Logger logger = Logger.getLogger(FunctionalityAnonymizeTest.class);
 	@Test
 	public void testSuccessful() {
+		BasicConfigurator.configure();
 		Functionality func = Functionality.getFunctionality("anonymize");
 		try {
 			Table map = new Table();

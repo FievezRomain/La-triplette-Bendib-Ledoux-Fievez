@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
@@ -17,6 +18,7 @@ public class ReaderFileCSVTest {
 	private static Logger logger = Logger.getLogger(ReaderFileCSVTest.class);
 	@Test
 	public void testRead() {
+		BasicConfigurator.configure();
 		String path = new File("src/test/java/testFiles/testProjetPOOM1MIAGE.csv").getAbsolutePath();
 		String[] alt = path.split("\\.");
 		String extension = alt[alt.length - 1].toLowerCase();

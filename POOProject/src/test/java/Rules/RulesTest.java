@@ -2,6 +2,7 @@ package Rules;
 
 import static org.junit.Assert.*;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
@@ -15,6 +16,7 @@ public class RulesTest {
 
 	@Test
 	public void testRuleAge() {
+		BasicConfigurator.configure();
 		try {
 			RuleVerify rule = VerifyRulesFactory.getInstanceRule("BE_AN_AGE");
 			assertTrue(rule.checkRule("22"));
@@ -25,6 +27,7 @@ public class RulesTest {
 	
 	@Test
 	public void testErrorRuleAge() {
+		BasicConfigurator.configure();
 		try {
 			RuleVerify rule = VerifyRulesFactory.getInstanceRule("BE_AN_AGE");
 			assertFalse(rule.checkRule("Pas d'âge"));
@@ -35,6 +38,7 @@ public class RulesTest {
 	
 	@Test
 	public void testRuleEmail() {
+		BasicConfigurator.configure();
 		try {
 			RuleVerify rule = VerifyRulesFactory.getInstanceRule("BE_AN_EMAIL");
 			assertTrue(rule.checkRule("test@gmail.com"));
@@ -45,6 +49,7 @@ public class RulesTest {
 	
 	@Test
 	public void testErrorRuleEmail() {
+		BasicConfigurator.configure();
 		try {
 			RuleVerify rule = VerifyRulesFactory.getInstanceRule("BE_AN_EMAIL");
 			assertFalse(rule.checkRule("testgmailcom"));
@@ -55,6 +60,7 @@ public class RulesTest {
 	
 	@Test
 	public void testRuleEmailDauphine() {
+		BasicConfigurator.configure();
 		try {
 			RuleVerify rule = VerifyRulesFactory.getInstanceRule("BE_AN_DAUPHINE_EMAIL");
 			assertTrue(rule.checkRule("test@dauphine.psl.eu"));
@@ -65,6 +71,7 @@ public class RulesTest {
 	
 	@Test
 	public void testErrorRuleEmailDauphine() {
+		BasicConfigurator.configure();
 		try {
 			RuleVerify rule = VerifyRulesFactory.getInstanceRule("BE_AN_DAUPHINE_EMAIL");
 			assertFalse(rule.checkRule("test@gmail.com"));
@@ -75,6 +82,7 @@ public class RulesTest {
 	
 	@Test
 	public void testRandomLetter() {
+		BasicConfigurator.configure();
 		try {
 			RuleAnonymize rule = AnonymizeRuleFactory.getInstance("RANDOM_LETTER");
 			String result = rule.applyRule("test");
@@ -87,6 +95,7 @@ public class RulesTest {
 	
 	@Test
 	public void testRandomLetterForLocalPart() {
+		BasicConfigurator.configure();
 		try {
 			RuleAnonymize rule = AnonymizeRuleFactory.getInstance("RANDOM_LETTER_FOR_LOCAL_PART");
 			String result = rule.applyRule("test@gmail.com");
@@ -99,6 +108,7 @@ public class RulesTest {
 	
 	@Test
 	public void testUndefinedRuleVerify() {
+		BasicConfigurator.configure();
 		try {
 			RuleVerify rule = VerifyRulesFactory.getInstanceRule("BE_AN_AGEe");
 			logger.fatal("Fail testUndefinedRuleVerify");
@@ -110,6 +120,7 @@ public class RulesTest {
 	
 	@Test
 	public void testUndefinedRuleAnonymize() {
+		BasicConfigurator.configure();
 		try {
 			RuleAnonymize rule = AnonymizeRuleFactory.getInstance("BE_AN_AGEe");
 			logger.fatal("Fail testUndefinedRuleAnonymize");

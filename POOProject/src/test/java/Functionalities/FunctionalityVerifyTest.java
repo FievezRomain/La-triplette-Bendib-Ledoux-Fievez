@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
@@ -16,6 +17,7 @@ public class FunctionalityVerifyTest {
 
 	@Test
 	public void testSuccessful() {
+		BasicConfigurator.configure();
 		Functionality func = Functionality.getFunctionality("verify");
 		try {
 			Table map = new Table();
